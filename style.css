@@ -1,0 +1,44 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #fef6ff;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  color: #6a1b9a;
+}
+
+#malla-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.trimestre {
+  background: #f3e5f5;
+  border: 2px solid #ce93d8;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(186, 104, 200, 0.2);
+}
+
+.trimestre h2 {
+  color: #8e24aa;
+  margin-top: 0;
+}
+
+.materia {
+  background: #fce4ec;
+  border-left: 5px solid #ec407a;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.prelacion {
+  font-size: 0.85em;
+  color: #6a1b9a;
+}
