@@ -157,3 +157,17 @@ function render() {
         matDiv.addEventListener("click", () => {
           if (aprobadas.includes(materia.codigo)) {
             aprobadas = aprobadas.filter(cod => cod !== materia.codigo);
+          } else {
+            aprobadas.push(materia.codigo);
+          }
+          guardarProgreso();
+          render();
+        });
+      }
+      div.appendChild(matDiv);
+    });
+    container.appendChild(div);
+  });
+}
+
+render();
