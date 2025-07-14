@@ -127,21 +127,33 @@ const malla = [
   }
 ];
 
-const container = document.getElementById("malla-container");
+let aprobadas = JSON.parse(localStorage.getItem("materiasAprobadas")) || [];
 
-malla.forEach((trimestre) => {
-  const div = document.createElement("div");
-  div.className = "trimestre";
-  div.innerHTML = `<h2>${trimestre.trimestre}</h2>`;
-  
-  trimestre.materias.forEach((materia) => {
-    const matDiv = document.createElement("div");
-    matDiv.className = "materia";
-    matDiv.innerHTML = `<strong>${materia.nombre}</strong><br><span class="prelacion">Código: ${materia.codigo}</span>${
-      materia.prelacion ? `<br><span class="prelacion">Prelación: ${materia.prelacion}</span>` : ""
-    }`;
-    div.appendChild(matDiv);
-  });
+function guardarProgreso() {
+  localStorage.setItem("materiasAprobadas", JSON.stringify(aprobadas));
+}
 
-  container.appendChild(div);
-});
+function render() {
+  const container = document.getElementById("malla-container");
+  container.innerHTML = "";
+  malla.forEach((trimestre) => {
+    const div = document.createElement("div");
+    div.className = "trimestre";
+    div.innerHTML = `<h2>${trimestre.trimestre}</h2>`;
+    trimestre.materias.forEach((materia) => {
+      const matDiv = document.createElement("div");
+      matDiv.className = "materia";
+      const estaAprobada = aprobadas.includes(materia.codigo);
+      const tienePrelaciones = materia.prelacion;
+      const desbloqueada = !tienePrelaciones || materia.prelacion.split(", ").every(pre => aprobadas.includes(pre));
+      if (estaAprobada) matDiv.classList.add("aprobada");
+      else if (!desbloqueada) matDiv.classList.add("bloqueada");
+      matDiv.innerHTML = `
+        <strong>${materia.nombre}</strong><br>
+        <span class="prelacion">Código: ${materia.codigo}</span>
+        ${tienePrelaciones ? `<br><span class="prelacion">Prelación: ${materia.prelacion}</span>` : ""}
+      `;
+      if (desbloqueada) {
+        matDiv.addEventListener("click", () => {
+          if (aprobadas.includes(materia.codigo)) {
+            aprobadas = aprobadas.filter(cod => cod !== materia.codigo);
